@@ -98,26 +98,16 @@ save('Trained_5blocks_10801080_16cm_sin_sin_ws.mat','dlnet','averageGrad','avera
 %% loss function
 function [gradients,dlY,lossRec1,lossRec2,loss] = modelGradients(dlnet,dlX)
 
-    [dlY] = forward(dlnet,dlX,'Outputs','crop');
-    Y = gather(extractdata(dlY));Y1 = Y(471:610,471:610);dlY1 = dlarray(Y1, 'SSCB');
-    loss_0 = TotalVariationLoss(dlY1);
+    [dlY] = forward(dlnet,dlX,'Outputs','crop');loss_0 = TotalVariationLoss(dlY);
    
-    [dlY_1] = forward(dlnet,dlX,'Outputs','crop1');
-    Y_1 = gather(extractdata(dlY_1));Y1_1 = Y_1(471:610,471:610);dlY1_1 = dlarray(Y1_1, 'SSCB');
-    loss_1 = TotalVariationLoss(dlY1_1);
-    
-    [dlY_2] = forward(dlnet,dlX,'Outputs','crop2');
-    Y_2 = gather(extractdata(dlY_2));Y1_2 = Y_2(471:610,471:610);dlY1_2 = dlarray(Y1_2, 'SSCB');
-    loss_2 = TotalVariationLoss(dlY1_2);
+    [dlY_1] = forward(dlnet,dlX,'Outputs','crop1');loss_1 = TotalVariationLoss(dlY_1);
+  
+    [dlY_2] = forward(dlnet,dlX,'Outputs','crop2'); loss_2 = TotalVariationLoss(dlY_2);
 
-    [dlY_3] = forward(dlnet,dlX,'Outputs','crop3');
-    Y_3 = gather(extractdata(dlY_3));Y1_3 = Y_3(471:610,471:610);dlY1_3 = dlarray(Y1_3, 'SSCB');
-    loss_3 = TotalVariationLoss(dlY1_3);
-   
-    [dlY_4] = forward(dlnet,dlX,'Outputs','crop4');
-    Y_4 = gather(extractdata(dlY_4));Y1_4 = Y_4(471:610,471:610);dlY1_4 = dlarray(Y1_4, 'SSCB');
-    loss_4 = TotalVariationLoss(dlY1_4);
-    
+    [dlY_3] = forward(dlnet,dlX,'Outputs','crop3'); loss_3 = TotalVariationLoss(dlY_3);
+
+    [dlY_4] = forward(dlnet,dlX,'Outputs','crop4'); loss_4 = TotalVariationLoss(dlY_4);
+  
     X = gather(extractdata(dlX));X1 = mat2gray(X); dlX1 = dlarray(X1, 'SSCB');
     loss_5 = mseLoss(dlY+0.88*dlY_1+0.88*dlY_2+0.45*dlY_3+0.45*dlY_4,dlX1);
 
