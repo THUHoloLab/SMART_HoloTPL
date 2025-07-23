@@ -4,7 +4,7 @@ addpath('./functions');
 load Untrained_5blocks_10801080_16cm_sin_sin_ws.mat
 %% dataset
 % load dataset
-rawImagePath = '0111';
+rawImagePath = 'DIV2K';
 imds = imageDatastore(rawImagePath,'IncludeSubfolders',true);
 augimds = augmentedImageDatastore([1080 1080],imds,'ColorPreprocessing',"rgb2gray");
 % initialize plot
