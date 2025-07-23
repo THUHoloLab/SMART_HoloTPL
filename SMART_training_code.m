@@ -11,8 +11,8 @@ augimds = augmentedImageDatastore([1080 1080],imds,'ColorPreprocessing',"rgb2gra
 [ax1,ax2,lineLossRec1,lineLossRec2,lineLoss]=initializePlots4();
 plotFrequency = 5;
 %% training parameters
-numEpochs = 100;  
-miniBatchSize = 1;  
+numEpochs = 10;  
+miniBatchSize = 4;  
 augimds.MiniBatchSize = miniBatchSize;
 averageGrad = [];
 averageSqGrad = [];
@@ -94,38 +94,38 @@ for epoch = 1:numEpochs
 
 end
 
-save('Trained_5blocks_10801080_16cm_sin_sin_ws_0122.mat','dlnet','averageGrad','averageSqGrad');
+save('Trained_5blocks_10801080_16cm_sin_sin_ws.mat','dlnet','averageGrad','averageSqGrad');
 %% loss function
 function [gradients,dlY,lossRec1,lossRec2,loss] = modelGradients(dlnet,dlX)
 
     [dlY] = forward(dlnet,dlX,'Outputs','crop');
     X = gather(extractdata(dlX));X1 = mat2gray(X); dlX1 = dlarray(X1, 'SSCB');
-    lossRec1 = mseLoss(dlY,40*dlX1);  %能量守恒
+    lossRec1 = mseLoss(dlY,40*dlX1);
     Y = gather(extractdata(dlY));Y1 = Y(471:610,471:610);dlY1 = dlarray(Y1, 'SSCB');
     lossRec2 = TotalVariationLoss(dlY1);
     % lossRec3 = npccLoss(dlY,dlX1);lossRec3 = (lossRec3 + 1)/2;
     loss_0 = 0.5*lossRec1+0.5*lossRec2;
 
     [dlY_1] = forward(dlnet,dlX,'Outputs','crop1');
-    lossRec1_1 = mseLoss(dlY_1,40*dlX1);  %能量守恒
+    lossRec1_1 = mseLoss(dlY_1,40*dlX1);
     Y_1 = gather(extractdata(dlY_1));Y1_1 = Y_1(471:610,471:610);dlY1_1 = dlarray(Y1_1, 'SSCB');
     lossRec2_1 = TotalVariationLoss(dlY1_1);
     loss_1 = 0.5*lossRec1_1+0.5*lossRec2_1;
     
     [dlY_2] = forward(dlnet,dlX,'Outputs','crop2');
-    lossRec1_2 = mseLoss(dlY_2,40*dlX1);  %能量守恒
+    lossRec1_2 = mseLoss(dlY_2,40*dlX1);
     Y_2 = gather(extractdata(dlY_2));Y1_2 = Y_2(471:610,471:610);dlY1_2 = dlarray(Y1_2, 'SSCB');
     lossRec2_2 = TotalVariationLoss(dlY1_2);
     loss_2 = 0.5*lossRec1_2+0.5*lossRec2_2;
 
     [dlY_3] = forward(dlnet,dlX,'Outputs','crop3');
-    lossRec1_3 = mseLoss(dlY_3,40*dlX1);  %能量守恒
+    lossRec1_3 = mseLoss(dlY_3,40*dlX1);
     Y_3 = gather(extractdata(dlY_3));Y1_3 = Y_3(471:610,471:610);dlY1_3 = dlarray(Y1_3, 'SSCB');
     lossRec2_3 = TotalVariationLoss(dlY1_3);
     loss_3 = 0.5*lossRec1_3+0.5*lossRec2_3;
 
     [dlY_4] = forward(dlnet,dlX,'Outputs','crop4');
-    lossRec1_4 = mseLoss(dlY_4,40*dlX1);  %能量守恒
+    lossRec1_4 = mseLoss(dlY_4,40*dlX1);
     Y_4 = gather(extractdata(dlY_4));Y1_4 = Y_4(471:610,471:610);dlY1_4 = dlarray(Y1_4, 'SSCB');
     lossRec2_4 = TotalVariationLoss(dlY1_4);
     loss_4 = 0.5*lossRec1_4+0.5*lossRec2_4;
