@@ -109,7 +109,7 @@ function [gradients,dlY,lossRec1,lossRec2,loss] = modelGradients(dlnet,dlX)
     [dlY_4] = forward(dlnet,dlX,'Outputs','crop4'); loss_4 = TotalVariationLoss(dlY_4);
   
     X = gather(extractdata(dlX));X1 = mat2gray(X); dlX1 = dlarray(X1, 'SSCB');
-    loss_5 = mseLoss((dlY+0.88*dlY_1+0.88*dlY_2+0.45*dlY_3+0.45*dlY_4).^6,dlX1);
+    loss_5 = mseLoss((dlY+0.88*dlY_1+0.88*dlY_2+0.45*dlY_3+0.45*dlY_4).^6,dlX1.^6);
 
     % Calculate the total loss.
     loss = loss_0+loss_1+loss_2+loss_3+loss_4+loss_5;
