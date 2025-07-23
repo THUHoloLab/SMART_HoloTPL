@@ -96,7 +96,7 @@ end
 
 save('Trained_5blocks_10801080_16cm_sin_sin_ws.mat','dlnet','averageGrad','averageSqGrad');
 %% loss function
-function [gradients,dlY,lossRec1,lossRec2,loss] = modelGradients(dlnet,dlX)
+function [gradients,dlY,loss_0,loss_5,loss] = modelGradients(dlnet,dlX)
 
     [dlY] = forward(dlnet,dlX,'Outputs','crop');loss_0 = TotalVariationLoss(dlY);
    
